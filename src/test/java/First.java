@@ -15,7 +15,7 @@ import java.net.URL;
 
 public class First {
 
-    private AppiumDriver driver;
+    public AppiumDriver driver;
 
     @Before
     public void setUp() throws Exception {
