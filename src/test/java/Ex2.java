@@ -1,8 +1,6 @@
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -25,11 +23,6 @@ public class Ex2 extends First{
                 "Search Wikipedia",
                 "We see unexpected text");
     }
-
-
-
-
-
     }
 
 

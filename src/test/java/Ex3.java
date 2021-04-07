@@ -9,18 +9,12 @@ public class Ex3 extends First{
         waitForElementAndClick(
                 By.xpath("//androidx.cardview.widget.CardView[@resource-id='org.wikipedia:id/search_container']"),
                 "Cannot find search input",
-                5
-        );
+                5);
         waitForElementAndSenKeys(
                 By.xpath("//android.widget.EditText[@resource-id='org.wikipedia:id/search_src_text']"),
                 "Hippo",
                 "Cannot find search input",
                 5);
-
-        waitForElementPresent(By.id("org.wikipedia:id/search_close_btn"),
-                "Cannot find close button",
-                15);
-
 
         waitForElementPresent(By.id("org.wikipedia:id/page_list_item_title"),
                 "Cannot find articles",
