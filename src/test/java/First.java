@@ -35,6 +35,11 @@ public class First {
 
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'SKIP')]"),
+                "Cannot find the button 'SKIP'",
+                5);
     }
 
     @After
@@ -44,10 +49,7 @@ public class First {
 
     /*@Test
     public void firstTest() {
-        waitForElementAndClick(
-                By.xpath("//*[contains(@text,'SKIP')]"),
-                "Cannot find the button 'SKIP'",
-                5);
+
 
         waitForElementAndClick(
                 By.xpath("//androidx.cardview.widget.CardView[@resource-id='org.wikipedia:id/search_container']"),
@@ -67,10 +69,7 @@ public class First {
     }
     @Test
     public void testCancelSearch(){
-        waitForElementAndClick(
-                By.xpath("//*[contains(@text,'SKIP')]"),
-                "Cannot find the button 'SKIP'",
-                5);
+
 
         waitForElementAndClick(
                 By.id("org.wikipedia:id/search_container"),
@@ -103,14 +102,11 @@ public class First {
                 By.id("org.wikipedia:id/search_close_btn"),
                 "Close button still present on the page",
                 5);
-    } */
+    }
 
     @Test
     public void testCompareArticleTitle() {
-        waitForElementAndClick(
-                By.xpath("//*[contains(@text,'SKIP')]"),
-                "Cannot find the button 'SKIP'",
-                5);
+
 
         waitForElementAndClick(
                 By.xpath("//androidx.cardview.widget.CardView[@resource-id='org.wikipedia:id/search_container']"),
@@ -141,41 +137,41 @@ public class First {
                 "Java (programming language)",
                 article_title);
 
-    }
+    } */
 
 
-    private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
+    public WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "\n");
         return wait.until(
                 ExpectedConditions.presenceOfElementLocated(by));
     }
 
-    private WebElement waitForElementPresent(By by, String error_message) {
+    public WebElement waitForElementPresent(By by, String error_message) {
         return waitForElementPresent(by, error_message, 5);
     }
 
-    private WebElement waitForElementAndClick(By by, String error_message, long timeoutInSeconds) {
+    public WebElement waitForElementAndClick(By by, String error_message, long timeoutInSeconds) {
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         element.click();
         return element;
     }
 
-    private WebElement waitForElementAndSenKeys(By by, String value, String error_message, long timeoutInSeconds) {
+    public WebElement waitForElementAndSenKeys(By by, String value, String error_message, long timeoutInSeconds) {
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         element.sendKeys(value);
         return element;
     }
 
 
-    private boolean waitForElementNotPresent(By by, String error_message, long timeoutInSeconds) {
+    public boolean waitForElementNotPresent(By by, String error_message, long timeoutInSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "\n");
         return wait.until(
                 ExpectedConditions.invisibilityOfElementLocated(by));
     }
 
-    private WebElement waitForElementAndClear(By by, String error_message, long timeoutsInSecond) {
+    public WebElement waitForElementAndClear(By by, String error_message, long timeoutsInSecond) {
         WebElement element = waitForElementPresent(by, error_message, timeoutsInSecond);
         element.clear();
         return element;
