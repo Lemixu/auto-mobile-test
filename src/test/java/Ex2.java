@@ -3,9 +3,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.util.List;
-
-public class Ex2 extends First{
+public class Ex2 extends BaseClass {
 
     public void assertElementHasText(By by, String expected, String error_message) {
         WebElement element = waitForElementPresent(by, error_message, 5);

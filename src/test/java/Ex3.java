@@ -2,7 +2,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
-public class Ex3 extends First{
+public class Ex3 extends BaseClass {
 
     @Test
     public void cancelSearch() {

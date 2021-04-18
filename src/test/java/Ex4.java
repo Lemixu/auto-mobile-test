@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.Locale;
 
-public class Ex4 extends First {
+public class Ex4 extends BaseClass {
 
     String inputText = "JAVA";
 

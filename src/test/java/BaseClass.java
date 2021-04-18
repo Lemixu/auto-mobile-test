@@ -1,21 +1,48 @@
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.touch.offset.PointOption;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.List;
 
-public class First {
+import static io.appium.java_client.touch.WaitOptions.waitOptions;
+import static io.appium.java_client.touch.offset.ElementOption.element;
+import static io.appium.java_client.touch.offset.PointOption.point;
+import static java.time.Duration.ofSeconds;
+
+public class BaseClass {
 
     public AppiumDriver driver;
+
+    //@BeforeAll
+    public void runEmulator() throws IOException, InterruptedException {
+
+        String cmd = "emulator @device1 -dns-server 8.8.8.8";
+        Runtime run = Runtime.getRuntime();
+        Process pr = run.exec(cmd);
+        pr.waitFor();
+        BufferedReader buf = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+        String line = "";
+        while ((line=buf.readLine())!=null) {
+            System.out.println(line);
+        }
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -175,6 +202,25 @@ public class First {
         WebElement element = waitForElementPresent(by, error_message, timeoutsInSecond);
         element.clear();
         return element;
+    }
+
+    public int getAmountOfElements(By by){
+        List elements = driver.findElements(by);
+        return elements.size();
+    }
+
+    public void assertElementNotPresent(By by, String error_message){
+        int amount_of_elements = getAmountOfElements(by);
+        if(amount_of_elements>0){
+            String default_message = "An element '"+ by.toString() + "' supposed to be not present";
+            throw new AssertionError(default_message + " " + error_message);
+        }
+    }
+
+    public String waitElementAndGetAttribute(By by, String attribute,String error_message, long timeoutInSeconds){
+        WebElement element = waitForElementPresent(by,error_message,timeoutInSeconds);
+        return element.getAttribute(attribute);
+
     }
 
 
