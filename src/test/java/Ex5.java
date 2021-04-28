@@ -1,147 +1,56 @@
-import org.junit.Assert;
+import lib.CoreTestCase;
+import lib.ui.ArticlePageObject;
+import lib.ui.MainPageObject;
+import lib.ui.MyListsPageObject;
+import lib.ui.SearchPageObject;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
-public class Ex5 extends Swipe{
+
+public class Ex5 extends CoreTestCase {
 
     @Test
-    public void saveTwoArticles(){
-        String text = "Test";
+    public void testSaveTwoArticles() {
+        String name_of_folder = "Testik";
         String search_input = "Java";
-        String search_result_locator ="//*[@resource-id=\"org.wikipedia:id/page_list_item_title\"]";
+        String second_article = "Java (programming language)";
+        SearchPageObject search = new SearchPageObject(driver);
+        ArticlePageObject article = new ArticlePageObject(driver);
+        MyListsPageObject lists = new MyListsPageObject(driver);
 
-        waitForElementAndClick(
-                By.xpath("//androidx.cardview.widget.CardView[@resource-id='org.wikipedia:id/search_container']"),
-                "Cannot find search input",
-                5);
+        search.initClickSkip();
+        search.initSearchInput();
 
         //Вводим в строку поиска search_input
-        waitForElementAndSenKeys(
-                By.xpath("//android.widget.EditText[@resource-id='org.wikipedia:id/search_src_text']"),
-                search_input,
-                "Cannot find search input",
-                5);
-
+        search.typeSearchLine(search_input);
         //Переходим в первую статью
-        waitForElementAndClick(
-                By.xpath(search_result_locator),
-                "Cannot find locator '"+search_result_locator +"'",
-                15);
-
-
+        search.clickByArticleWithSubstring(search_input);
         //Сохраняем заголовок 1-ой статьи
-        String first_title =waitElementAndGetAttribute(
-                By.xpath("(//android.view.View)[3]"),
-                "content-desc",
-                "Cannot find the title of the article",
-                10);
-
-
-        //Жмем кнопку Save
-        waitForElementAndClick(
-                By.id("org.wikipedia:id/article_menu_bookmark"),
-                "Cannot find button 'Save",
-                5);
-
-        //После сохранения добавляем статью в список
-        waitForElementAndClick(
-                By.id("org.wikipedia:id/snackbar_action"),
-                "Cannot find the button 'Add to List",
-                5);
-
-
-        //Вводим название списка
-        waitForElementAndSenKeys(
-                By.id("org.wikipedia:id/text_input"),
-                text,
-                "Cannot find text input",
-                5);
-
-        //Подтверждаем ввод названия списка
-        waitForElementAndClick(
-                By.id("android:id/button1"),
-                "Cannot find the button 'OK'",
-                5);
-
-        //Идем назад к результатам поиска
-        waitForElementAndClick(
-                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
-                "Cannot find the button 'Navigate up'",
-                5);
-
-        //Переходим во вторую статью
-        waitForElementAndClick(
-                By.xpath("("+search_result_locator+")[2]"),
-                "Cannot find locator '\"+search_result_locator +\"'\"",
-                5);
-
-        //Сохраняем заголовок 2-ой статьи
-        String second_title =waitElementAndGetAttribute(
-                By.xpath("(//android.view.View)[3]"),
-                "content-desc",
-                "Cannot find the title of the article",
-                10);
+        String first_title = article.getArticleTitle(search_input);
 
         //Сохраняем статью
-        waitForElementAndClick(
-                By.id("org.wikipedia:id/article_menu_bookmark"),
-                "Cannot find button 'Save",
-                5);
-
-
-        waitForElementAndClick(
-                By.id("org.wikipedia:id/snackbar_action"),
-                "Cannot find the button 'Add to List",
-                5);
-
-        //Выбираем существующий список
-        waitForElementAndClick(
-                By.xpath("//android.widget.TextView[@text='"+text+"']"),
-                "Cannot find the lilst named '"+ text +"'",
-                5);
-
-        //Переходим в папку со статьями
-        waitForElementAndClick(
-                By.id("org.wikipedia:id/snackbar_action"),
-                "Cannot find the button 'View List'",
-                5);
-
-        //Ждем загрузки статьи
-        waitForElementNotPresent(
-                By.id("org.wikipedia:id/page_list_item_action"),
-                "The element 'page_list_item_action' didnt disappear",
-                15);
-
-        //Удаляем первую статью
-        swipeElementToLeft(
-                By.xpath("//android.widget.TextView[@text='"+first_title+"']"),
-                "Cannot find the article '"+ first_title+"'");
-
-        //Убеждаемся, что первая статья удалена
-        waitForElementNotPresent(
-                By.id("//android.widget.TextView[@text='"+first_title+"']"),
-                "The element '"+first_title+"'didnt disappear",
-                15);
-
-
-        //Убеждаемся, что вторая статья осталась
-        waitForElementPresent(
-                By.xpath("//android.widget.TextView[@text='"+second_title+"']"),
-                "Cannot find the article '"+second_title+"'");
-
+        article.addArticleToNewList(name_of_folder);
+        //Закрываем статью
+        article.closeArticle();
         //Переходим во вторую статью
-        waitForElementAndClick(
-                By.xpath("//android.widget.TextView[@text='"+second_title+"']"),
-                "Cannot click on article '" +second_title+"'",
-                5);
+        search.clickByArticleWithSubstring(second_article);
+        //Сохраняем заголовок 2-ой статьи
+        String second_title = article.getArticleTitle(second_article);
 
-        String result_title = waitElementAndGetAttribute(
-                By.xpath("(//android.view.View)[3]"),
-                "content-desc",
-                "Cannot find the title of the article",
-                10);
+        //Сохраняем статью и переходим в нее
+        article.addArticleToOldListAndOpen(name_of_folder);
+        lists.waitDownloadListIconDisappear();
+        //Удаляем первую статью
+        lists.swipeArticleToDelete(first_title);
+        //Убеждаемся, что первая статья удалена
+        lists.waitForArticleToDisappearByTitle(first_title);
+        //Убеждаемся, что вторая статья осталась
+        lists.waitForArticleAppearByTitle(second_article);
+        //Переходим во вторую статью
+        lists.openFolderByName(second_article);
+        String result_title = article.getArticleTitle(second_article);
 
-        Assert.assertEquals("The titles are not the same",
+
+        assertEquals("The titles are not the same",
                 second_title,
                 result_title);
 

@@ -15,6 +15,7 @@ import java.net.URL;
 public class Ex7 {
     public static AppiumDriver driver;
 
+
     @BeforeAll
     public static void setUp() throws Exception {
         System.out.println("Hello");
