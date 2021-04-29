@@ -11,12 +11,22 @@ public class SearchPageObject extends MainPageObject {
             SEARCH_CANCEL_BUTTON = "org.wikipedia:id/search_close_btn",
             SEARCH_RESULT_BY_SUBSTRING_TPL = "//android.widget.TextView[@text='{SUBSTRING}']",
             SEARCH_RESULT_ELEMENT = "//*[@resource-id=\"org.wikipedia:id/page_list_item_title\"]",
-            EMPTY_RESULT_LABEL = "//*[@text='No results']";
-    ;
+            EMPTY_RESULT_LABEL = "//*[@text='No results']",
+            PAGE_LIST_ITEM =
+                    "//android.view.ViewGroup[" +
+                            "./android.widget.TextView[@text='{TITLE}']]" +
+                            "/android.widget.TextView[@text='{DESCRIPTION}']";
+
 
     // TEMPLATES METHODS
     private static String getResultSearchElement(String substring) {
         return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
+    }
+
+    private static String getPageItemXpath(String title, String description){
+        return PAGE_LIST_ITEM
+                .replace("{TITLE}", title)
+                .replace("{DESCRIPTION}", description);
     }
     //TEMPLATE METHODS
 
@@ -97,10 +107,19 @@ public class SearchPageObject extends MainPageObject {
                 10);
     }
 
-    public void assertThereIsNoResultOfSearch(){
+    public void assertThereIsNoResultOfSearch() {
         this.assertElementNotPresent(
                 By.xpath(SEARCH_RESULT_ELEMENT),
                 "We supposed to find any results");
+    }
+
+    //Ex9
+    public void waitForElementByTitleAndDescription(String title, String description) {
+        String page_item = this.getPageItemXpath(title,description);
+        this.waitForElementPresent(
+                By.xpath(page_item),
+                "Cannot find research result by title: " +
+                        title + " and description: " + description);
     }
 
 
