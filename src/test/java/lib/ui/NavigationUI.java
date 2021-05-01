@@ -10,19 +10,19 @@ public class NavigationUI extends MainPageObject{
     }
 
     private static final String
-    SAVED_BUTTON = "//android.widget.FrameLayout[@content-desc='Saved']",
-    BACK_BUTTON = "//android.widget.ImageButton";
+    SAVED_BUTTON = "xpath://android.widget.FrameLayout[@content-desc='Saved']",
+    BACK_BUTTON = "xpath://android.widget.ImageButton";
 
     public void clickMyLists(){
         this.waitForElementAndClick(
-                By.xpath(SAVED_BUTTON),
+                SAVED_BUTTON,
                 "Cannot find the button 'Saved'",
                 5);
     }
 
     public void clickBackButton(){
         this.waitForElementAndClick(
-                By.xpath(BACK_BUTTON),
+                BACK_BUTTON,
                 "Cannot find the button 'Navigate up'",
                 5);
     }

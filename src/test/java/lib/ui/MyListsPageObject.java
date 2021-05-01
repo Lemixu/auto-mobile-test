@@ -10,9 +10,9 @@ public class MyListsPageObject extends MainPageObject{
     }
 
     public static final String
-    FOLDER_NAME_TPL = "//android.widget.TextView[@text='{SUBSTRING}']",
-    ARTICLE_IN_FOLDER_TPL = "//*[@text='{SUBSTRING}']",
-    DOWNLOAD_LIST_ICON = "org.wikipedia:id/page_list_item_action";
+    FOLDER_NAME_TPL = "xpath://android.widget.TextView[@text='{SUBSTRING}']",
+    ARTICLE_IN_FOLDER_TPL = "xpath://*[@text='{SUBSTRING}']",
+    DOWNLOAD_LIST_ICON = "id:org.wikipedia:id/page_list_item_action";
 
 
     private static String getFolderElement(String substring){
@@ -27,7 +27,7 @@ public class MyListsPageObject extends MainPageObject{
     public void openFolderByName(String name_of_folder){
         String nameFolder = getFolderElement(name_of_folder);
         this.waitForElementAndClick(
-                By.xpath(nameFolder),
+                nameFolder,
                 "Cannot find folder by name " + name_of_folder,
                 5);
     }
@@ -36,7 +36,7 @@ public class MyListsPageObject extends MainPageObject{
         this.waitForArticleAppearByTitle(article_title);
         String name_of_article = getSavedArticle(article_title);
         this.swipeElementToLeft(
-                By.xpath(name_of_article),
+               name_of_article,
                 "Cannot swipe the article");
         this.waitForArticleToDisappearByTitle(article_title);
     }
@@ -44,21 +44,21 @@ public class MyListsPageObject extends MainPageObject{
     public void waitForArticleToDisappearByTitle(String article_title){
         String article_xpath = getSavedArticle(article_title);
         this.waitForElementNotPresent(
-                By.xpath(article_xpath),
+                article_xpath,
                 "Saved article still present with title " + article_title,
                 15);
     }
     public void waitForArticleAppearByTitle(String article_title){
         String article_xpath = getSavedArticle(article_title);
         this.waitForElementPresent(
-                By.xpath(article_xpath),
+                article_xpath,
                 "Cannor find the article with title " + article_title,
                 15);
     }
 
     public void waitDownloadListIconDisappear(){
         this.waitForElementNotPresent(
-                By.id(DOWNLOAD_LIST_ICON),
+                DOWNLOAD_LIST_ICON,
                 "The download icon didnt disappear",
                 15);
     }

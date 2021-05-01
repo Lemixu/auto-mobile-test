@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 public class Ex2 extends CoreTestCase {
+    /*
     private lib.ui.MainPageObject MainPageObject;
 
     protected void setUp() throws Exception {
@@ -28,7 +29,7 @@ public class Ex2 extends CoreTestCase {
                 By.xpath("//android.widget.TextView[@text='Search Wikipedia']"),
                 "Search Wikipedia",
                 "We see unexpected text");
-    }
+    } */
     }
 
 
