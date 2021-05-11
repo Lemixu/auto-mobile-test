@@ -6,13 +6,19 @@ import lib.ui.SearchPageObject;
 import lib.ui.WelcomePageObject;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.openqa.selenium.ScreenOrientation;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.Duration;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 public class CoreTestCase extends TestCase {
 
 
     public AppiumDriver driver;
+    protected static Properties prop;
 
 
     @Override
@@ -21,6 +27,7 @@ public class CoreTestCase extends TestCase {
         super.setUp();
         driver = Platform.getInstance().getDriver();
        // this.rotateScreenPortrait();
+        this.initProperties();
         this.skipWelcomePage();
     }
 
@@ -50,6 +57,12 @@ public class CoreTestCase extends TestCase {
     protected void skipWelcomePage() {
         SearchPageObject welcome = SearchPageObjectFactory.get(driver);
         welcome.initClickSkip();
+    }
+
+    protected void initProperties() throws IOException {
+        prop = new Properties();
+        FileInputStream fis=new FileInputStream("src/test/java/testData/data.properties");
+        prop.load(fis);
     }
 
 

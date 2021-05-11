@@ -8,14 +8,14 @@ public class Ex9 extends CoreTestCase {
     @Test
     public void testFindResultByTitleAndDescription(){
 
-        String title1 = "Java";
-        String description1 = "Island of Indonesia";
-        String title2 = "JavaScript";
-        String description2 = "Programming language";
-        String title3 = "Java (programming language)";
-        String description3 = "Object-oriented programming language";
+        String title1 = prop.getProperty("title1");
+        String description1 = prop.getProperty("description1");
+        String title2 = prop.getProperty("title2");
+        String description2 = prop.getProperty("description2");
+        String title3 = prop.getProperty("title3");
+        String description3 = prop.getProperty("description3");
         SearchPageObject search = SearchPageObjectFactory.get(driver);
-        String searchLine = "Java";
+        String searchLine = prop.getProperty("searchLine");
 
         search.initSearchInput();
         search.typeSearchLine(searchLine);
