@@ -1,5 +1,6 @@
 import lib.CoreTestCase;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class Ex3 extends CoreTestCase {
@@ -8,10 +9,9 @@ public class Ex3 extends CoreTestCase {
     @Test
     public void testCancelSearch() {
 
-        SearchPageObject search = new SearchPageObject(driver);
+        SearchPageObject search = SearchPageObjectFactory.get(driver);
         String searchLine = "Java";
 
-        search.initClickSkip();
         search.initSearchInput();
         search.typeSearchLine(searchLine);
         search.waitForSearchResult(searchLine);

@@ -3,6 +3,8 @@ package tests;
 import lib.CoreTestCase;
 import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.ArticlePageObjectFactory;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class ChangeAppConditionTests extends CoreTestCase {
@@ -12,10 +14,9 @@ public class ChangeAppConditionTests extends CoreTestCase {
 
         String searchLine = "Java";
         String search_result_locator ="//*[@resource-id=\"org.wikipedia:id/page_list_item_title\"]";
-        SearchPageObject search = new SearchPageObject(driver);
-        ArticlePageObject article = new ArticlePageObject(driver);
+        SearchPageObject search = SearchPageObjectFactory.get(driver);
+        ArticlePageObject article = ArticlePageObjectFactory.get(driver);
 
-        search.initClickSkip();
         search.initSearchInput();
         search.typeSearchLine(searchLine);
         search.clickByArticleWithSubstring(searchLine);
@@ -44,9 +45,8 @@ public class ChangeAppConditionTests extends CoreTestCase {
     public void testCheckSearchArticleInBackground(){
         String searchLine = "Java";
         String search_result_locator ="//android.widget.TextView[@text='Java (programming language)']";
-        SearchPageObject search = new SearchPageObject(driver);
+        SearchPageObject search = SearchPageObjectFactory.get(driver);
 
-        search.initClickSkip();
         search.initSearchInput();
         search.typeSearchLine(searchLine);
         search.waitForSearchResult(searchLine);

@@ -1,32 +1,34 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-public class ArticlePageObject extends MainPageObject {
+abstract public class ArticlePageObject extends MainPageObject {
 
     public ArticlePageObject(AppiumDriver driver) {
         super(driver);
     }
 
-    private static final String
-            ARTICLE_TITLE = "xpath://android.view.View[@content-desc='{SUBSTRING}']",
-            FOOTER_ELEMENT = "xpath://android.view.View[@content-desc='View article in browser']",
-            SAVE_BUTTON = "id:org.wikipedia:id/article_menu_bookmark",
-            ADD_TO_LIST_BUTTON = "id:org.wikipedia:id/snackbar_action",
-            OK_BUTTON = "id:android:id/button1",
-            NAVIGATE_UP_BUTTON = "xpath://android.widget.ImageButton[@content-desc='Navigate up']",
-            NAME_OF_EXIST_LIST = "xpath://android.widget.TextView[@text='{SUBSTRING}']",
-            VIEW_LIST_BUTTON = "id:org.wikipedia:id/snackbar_action";
+    protected static String
+            ARTICLE_TITLE,
+            FOOTER_ELEMENT,
+            SAVE_BUTTON,
+            ADD_TO_LIST_BUTTON,
+            OK_BUTTON,
+            GO_BACK_BUTTON,
+            NAME_OF_EXIST_LIST,
+            VIEW_LIST_BUTTON,
+            CLOSE_BANNER_BUTTON; //places auth close
 
 
     private static String getTitleElement(String substring) {
         return ARTICLE_TITLE.replace("{SUBSTRING}", substring);
     }
 
-    private static String getNameOfExistList(String substring){
-        return NAME_OF_EXIST_LIST.replace("{SUBSTRING}",substring);
+    private static String getNameOfExistList(String substring) {
+        return NAME_OF_EXIST_LIST.replace("{SUBSTRING}", substring);
     }
 
     public WebElement waitForTitleElement(String substring) {
@@ -39,14 +41,23 @@ public class ArticlePageObject extends MainPageObject {
 
     public String getArticleTitle(String titleElement) {
         WebElement title_element = waitForTitleElement(titleElement);
-        return title_element.getAttribute("content-desc");
+        if (Platform.getInstance().isAndroid()) {
+            return title_element.getAttribute("content-desc");
+        } else {
+            return title_element.getAttribute("name");
+        }
     }
 
     public void swipeToFooter() {
-        this.swipeUpToFindElement(
+        if (Platform.getInstance().isAndroid()) {
+            this.swipeUpToFindElement(
+                    FOOTER_ELEMENT,
+                    "Cannot find the end of article",
+                    40);
+        } else this.swipeUpTillElementAppear(
                 FOOTER_ELEMENT,
                 "Cannot find the end of article",
-                20);
+                40);
     }
 
     public void addArticleToNewList(String nameOfFolder) {
@@ -74,7 +85,7 @@ public class ArticlePageObject extends MainPageObject {
 
     public void closeArticle() {
         this.waitForElementAndClick(
-                NAVIGATE_UP_BUTTON,
+                GO_BACK_BUTTON,
                 "Cannot find the button 'Navigate up'",
                 5);
     }
@@ -103,14 +114,29 @@ public class ArticlePageObject extends MainPageObject {
                 5);
     }
 
-   public void assertTitleOfArticleIsPresent(String title) {
+    public void assertTitleOfArticleIsPresent(String title) {
         String title_of_article = getTitleElement(title);
-       Boolean element_present = this.elementIsDisplayed(title_of_article);
+        Boolean element_present = this.elementIsDisplayed(title_of_article);
 
-       if(element_present==false){
-           String default_message = "An element '" + title_of_article + "' supposed to be present";
-           throw new AssertionError(default_message + " " + "There is no title on this page");
-       }
-   }
+        if (element_present == false) {
+            String default_message = "An element '" + title_of_article + "' supposed to be present";
+            throw new AssertionError(default_message + " " + "There is no title on this page");
+        }
+    }
+
+    public void addArticlesToMySaved() {
+        this.waitForElementAndClick(
+                SAVE_BUTTON,
+                "Cannot find the Save button",
+                5);
+    }
+
+    public void closeBannerAfterSaveArticle() {
+        this.waitForElementAndClick(
+                CLOSE_BANNER_BUTTON,
+                "Cannot find the close button on the banner",
+                15);
+
+    }
 
 }

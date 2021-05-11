@@ -3,19 +3,16 @@ package lib.ui;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 
-public class SearchPageObject extends MainPageObject {
-    private static final String
-            SEARCH_INPUT = "xpath://androidx.cardview.widget.CardView[@resource-id='org.wikipedia:id/search_container']",
-            BUTTON_SKIP = "xpath://*[contains(@text,'SKIP')]",
-            SEARCH_INPUT_ACTIVE = "xpath://android.widget.EditText[@resource-id='org.wikipedia:id/search_src_text']",
-            SEARCH_CANCEL_BUTTON = "id:org.wikipedia:id/search_close_btn",
-            SEARCH_RESULT_BY_SUBSTRING_TPL = "xpath://android.widget.TextView[@text='{SUBSTRING}']",
-            SEARCH_RESULT_ELEMENT = "xpath://*[@resource-id=\"org.wikipedia:id/page_list_item_title\"]",
-            EMPTY_RESULT_LABEL = "xpath://*[@text='No results']",
-            PAGE_LIST_ITEM =
-                    "xpath://android.view.ViewGroup[" +
-                            "./android.widget.TextView[@text='{TITLE}']]" +
-                            "/android.widget.TextView[@text='{DESCRIPTION}']";
+abstract public class SearchPageObject extends MainPageObject {
+    protected static String
+            SEARCH_INPUT,
+            BUTTON_SKIP,
+            SEARCH_INPUT_ACTIVE,
+            SEARCH_CANCEL_BUTTON,
+            SEARCH_RESULT_BY_SUBSTRING_TPL,
+            SEARCH_RESULT_ELEMENT,
+            EMPTY_RESULT_LABEL,
+            PAGE_LIST_ITEM;
 
 
     // TEMPLATES METHODS

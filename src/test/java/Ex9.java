@@ -1,5 +1,6 @@
 import lib.CoreTestCase;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class Ex9 extends CoreTestCase {
@@ -13,10 +14,9 @@ public class Ex9 extends CoreTestCase {
         String description2 = "High-level programming language";
         String title3 = "Java (programming language)";
         String description3 = "Object-oriented programming language";
-        SearchPageObject search = new SearchPageObject(driver);
+        SearchPageObject search = SearchPageObjectFactory.get(driver);
         String searchLine = "Java";
 
-        search.initClickSkip();
         search.initSearchInput();
         search.typeSearchLine(searchLine);
         search.waitForElementByTitleAndDescription(title1,description1);

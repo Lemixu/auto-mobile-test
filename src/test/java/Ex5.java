@@ -1,8 +1,10 @@
 import lib.CoreTestCase;
-import lib.ui.ArticlePageObject;
-import lib.ui.MainPageObject;
-import lib.ui.MyListsPageObject;
-import lib.ui.SearchPageObject;
+import lib.Platform;
+import lib.ui.*;
+import lib.ui.factories.ArticlePageObjectFactory;
+import lib.ui.factories.MyListPageObjectFactory;
+import lib.ui.factories.NavigationUIFactory;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 
@@ -13,11 +15,12 @@ public class Ex5 extends CoreTestCase {
         String name_of_folder = "Testik";
         String search_input = "Java";
         String second_article = "Java (programming language)";
-        SearchPageObject search = new SearchPageObject(driver);
-        ArticlePageObject article = new ArticlePageObject(driver);
-        MyListsPageObject lists = new MyListsPageObject(driver);
+        SearchPageObject search = SearchPageObjectFactory.get(driver);
+        ArticlePageObject article = ArticlePageObjectFactory.get(driver);
+        MyListsPageObject lists = MyListPageObjectFactory.get(driver);
+        NavigationUI navigate = NavigationUIFactory.get(driver);
 
-        search.initClickSkip();
+
         search.initSearchInput();
 
         //Вводим в строку поиска search_input
@@ -27,26 +30,43 @@ public class Ex5 extends CoreTestCase {
         //Сохраняем заголовок 1-ой статьи
         String first_title = article.getArticleTitle(search_input);
 
-        //Сохраняем статью
-        article.addArticleToNewList(name_of_folder);
+        if(Platform.getInstance().isAndroid()) {
+            //Сохраняем статью
+            article.addArticleToNewList(name_of_folder);
+        } else {
+            article.addArticlesToMySaved();
+            article.closeBannerAfterSaveArticle();
+        }
         //Закрываем статью
         article.closeArticle();
+
+        if(Platform.getInstance().isIOS()){
+            search.initSearchInput();
+        }
         //Переходим во вторую статью
         search.clickByArticleWithSubstring(second_article);
         //Сохраняем заголовок 2-ой статьи
         String second_title = article.getArticleTitle(second_article);
 
-        //Сохраняем статью и переходим в нее
-        article.addArticleToOldListAndOpen(name_of_folder);
-        lists.waitDownloadListIconDisappear();
+        if (Platform.getInstance().isAndroid()) {
+            //Сохраняем статью и переходим в нее
+            article.addArticleToOldListAndOpen(name_of_folder);
+            lists.waitDownloadListIconDisappear();
+        } else {
+            article.addArticlesToMySaved();
+            article.closeArticle();
+            navigate.clickMyLists();
+        }
+
         //Удаляем первую статью
         lists.swipeArticleToDelete(first_title);
+
         //Убеждаемся, что первая статья удалена
         lists.waitForArticleToDisappearByTitle(first_title);
         //Убеждаемся, что вторая статья осталась
         lists.waitForArticleAppearByTitle(second_article);
         //Переходим во вторую статью
-        lists.openFolderByName(second_article);
+        lists.openArticleByName(second_article);
         String result_title = article.getArticleTitle(second_article);
 
 
