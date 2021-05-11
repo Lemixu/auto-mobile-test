@@ -9,9 +9,9 @@ public class Ex9 extends CoreTestCase {
     public void testFindResultByTitleAndDescription(){
 
         String title1 = "Java";
-        String description1 = "Indonesian island";
+        String description1 = "Island of Indonesia";
         String title2 = "JavaScript";
-        String description2 = "High-level programming language";
+        String description2 = "Programming language";
         String title3 = "Java (programming language)";
         String description3 = "Object-oriented programming language";
         SearchPageObject search = SearchPageObjectFactory.get(driver);

@@ -13,12 +13,12 @@ public class IOSSearchPageObject extends SearchPageObject {
         SEARCH_RESULT_BY_SUBSTRING_TPL = "xpath://XCUIElementTypeStaticText[contains(@name, '{SUBSTRING}')]";
         SEARCH_RESULT_ELEMENT = "xpath://XCUIElementTypeCell";
         EMPTY_RESULT_LABEL = "xpath://XCUIElementTypeStaticText[@name='No results found']";
-        /*PAGE_LIST_ITEM =
-                "xpath://android.view.ViewGroup[" +
-                        "./android.widget.TextView[@text='{TITLE}']]" +
-                        "/android.widget.TextView[@text='{DESCRIPTION}']"; */
+        PAGE_LIST_ITEM = "xpath://XCUIElementTypeOther[" +
+                "./XCUIElementTypeStaticText[@name='{TITLE}']]" +
+                "/XCUIElementTypeStaticText[@name='{DESCRIPTION}']";
     }
 
+    //XCUIElementTypeOther[./XCUIElementTypeStaticText[@name="Java"]]/XCUIElementTypeStaticText[@name="Island of Indonesia"]/..
     public IOSSearchPageObject(AppiumDriver driver) {
         super(driver);
     }
