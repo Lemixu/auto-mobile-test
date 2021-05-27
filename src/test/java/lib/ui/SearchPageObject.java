@@ -121,7 +121,7 @@ abstract public class SearchPageObject extends MainPageObject {
         this.waitForElementPresent(
                 page_item,
                 "Cannot find research result by title: " +
-                        title + " and description: " + description);
+                        title + " and description: " + description + "\nThe locator: " + page_item);
     }
 
 

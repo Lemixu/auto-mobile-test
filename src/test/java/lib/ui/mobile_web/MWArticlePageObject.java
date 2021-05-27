@@ -13,7 +13,7 @@ public class MWArticlePageObject extends ArticlePageObject {
         ARTICLE_TITLE = "css:#content h1";
         FOOTER_ELEMENT = "css:footer";
         SAVE_BUTTON = "css:#ca-watch";
-        NAME_OF_EXIST_LIST = "xpath://android.widget.TextView[@text='{SUBSTRING}']";
+
         VIEW_LIST_BUTTON = "id:org.wikipedia:id/snackbar_action";
         ADD_TO_LIST_BUTTON = "xpath://a[text()='Watch']";
         OPTIONS_REMOVE_FROM_MY_LIST_BUTTON = "xpath://a[text()='Unwatch']";

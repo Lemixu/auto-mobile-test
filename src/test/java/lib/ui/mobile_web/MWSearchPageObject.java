@@ -16,9 +16,7 @@ public class MWSearchPageObject  extends SearchPageObject {
         SEARCH_RESULT_BY_SUBSTRING_TPL = "xpath://a[contains(@data-title, '{SUBSTRING}')]";
         SEARCH_RESULT_ELEMENT = "css:ul.page-list>li.page-summary";
         EMPTY_RESULT_LABEL = "css:p.without-results";
-        PAGE_LIST_ITEM = "xpath://XCUIElementTypeOther[" +
-                "./XCUIElementTypeStaticText[@name='{TITLE}']]" +
-                "/XCUIElementTypeStaticText[@name='{DESCRIPTION}']";
+        PAGE_LIST_ITEM = "xpath://a[./h3/strong[text()='{TITLE}']]/div[text()='{DESCRIPTION}']";
     }
 
 }
