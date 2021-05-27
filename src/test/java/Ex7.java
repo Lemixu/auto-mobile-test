@@ -1,18 +1,7 @@
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.android.AndroidDriver;
-import org.junit.Assert;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import java.io.File;
-import java.net.URL;
+
 
 public class Ex7 {
+    /*
     public static AppiumDriver driver;
 
 
@@ -65,4 +54,8 @@ public class Ex7 {
         Assert.assertTrue("Cannot find the language 'english",
                 element.isDisplayed());
     }
+
+
+
+ */
 }

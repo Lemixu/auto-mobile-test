@@ -4,10 +4,11 @@ import io.appium.java_client.AppiumDriver;
 import lib.Platform;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class ArticlePageObject extends MainPageObject {
 
-    public ArticlePageObject(AppiumDriver driver) {
+    public ArticlePageObject(RemoteWebDriver driver) {
         super(driver);
     }
 
@@ -20,7 +21,8 @@ abstract public class ArticlePageObject extends MainPageObject {
             GO_BACK_BUTTON,
             NAME_OF_EXIST_LIST,
             VIEW_LIST_BUTTON,
-            CLOSE_BANNER_BUTTON; //places auth close
+            CLOSE_BANNER_BUTTON,//places auth close
+            OPTIONS_REMOVE_FROM_MY_LIST_BUTTON;
 
 
     private static String getTitleElement(String substring) {
@@ -39,12 +41,25 @@ abstract public class ArticlePageObject extends MainPageObject {
                 15);
     }
 
-    public String getArticleTitle(String titleElement) {
-        WebElement title_element = waitForTitleElement(titleElement);
+//    public String getArticleTitle(String titleElement) {
+//        WebElement title_element = waitForTitleElement(titleElement);
+//        if (Platform.getInstance().isAndroid()) {
+//            return title_element.getAttribute("content-desc");
+//        } else if (Platform.getInstance().isIOS()) {
+//            return title_element.getAttribute("name");
+//        } else {
+//            return title_element.getText();
+//        }
+//    }
+
+    public String getArticleTitle() {
+        WebElement title_element = waitForTitleElement(ARTICLE_TITLE);
         if (Platform.getInstance().isAndroid()) {
             return title_element.getAttribute("content-desc");
-        } else {
+        } else if (Platform.getInstance().isIOS()) {
             return title_element.getAttribute("name");
+        } else {
+            return title_element.getText();
         }
     }
 
@@ -54,10 +69,17 @@ abstract public class ArticlePageObject extends MainPageObject {
                     FOOTER_ELEMENT,
                     "Cannot find the end of article",
                     40);
-        } else this.swipeUpTillElementAppear(
-                FOOTER_ELEMENT,
-                "Cannot find the end of article",
-                40);
+        } else if (Platform.getInstance().isIOS()) {
+            this.swipeUpTillElementAppear(
+                    FOOTER_ELEMENT,
+                    "Cannot find the end of article",
+                    40);
+        } else {
+            this.scrollWebPageTillElementNotVisible(
+                    FOOTER_ELEMENT,
+                    "Cannot find the end of article",
+                    40);
+        }
     }
 
     public void addArticleToNewList(String nameOfFolder) {
@@ -84,10 +106,14 @@ abstract public class ArticlePageObject extends MainPageObject {
     }
 
     public void closeArticle() {
-        this.waitForElementAndClick(
-                GO_BACK_BUTTON,
-                "Cannot find the button 'Navigate up'",
-                5);
+        if((Platform.getInstance().isAndroid()) || (Platform.getInstance().isIOS())) {
+            this.waitForElementAndClick(
+                    GO_BACK_BUTTON,
+                    "Cannot find the button 'Navigate up'",
+                    5);
+        } else {
+            System.out.println("Method closeArticle() does nothing for platform " + Platform.getInstance().getPlatformVar());
+        }
     }
 
     public void addArticleToOldListAndOpen(String nameOfFolder) {
@@ -125,6 +151,9 @@ abstract public class ArticlePageObject extends MainPageObject {
     }
 
     public void addArticlesToMySaved() {
+        if(Platform.getInstance().isMW()) {
+            this.removeArticleFromSavedIfItAdded();
+        }
         this.waitForElementAndClick(
                 SAVE_BUTTON,
                 "Cannot find the Save button",
@@ -137,6 +166,20 @@ abstract public class ArticlePageObject extends MainPageObject {
                 "Cannot find the close button on the banner",
                 15);
 
+    }
+
+    public void removeArticleFromSavedIfItAdded(){
+        if(this.isElementPresent(OPTIONS_REMOVE_FROM_MY_LIST_BUTTON)) {
+            this.waitForElementAndClick(
+                    OPTIONS_REMOVE_FROM_MY_LIST_BUTTON,
+                    "Cannot click the button to remove the article from saved",
+                    1);
+            this.waitForElementPresent(
+                    ADD_TO_LIST_BUTTON,
+                    "Cannot find button to add an article to saved list after removing it from this list before",
+                    5);
+
+        }
     }
 
 }

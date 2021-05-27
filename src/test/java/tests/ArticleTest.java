@@ -13,13 +13,13 @@ public class ArticleTest extends CoreTestCase {
     public void testCompareArticleTitle() {
         SearchPageObject search = SearchPageObjectFactory.get(driver);
         ArticlePageObject article = ArticlePageObjectFactory.get(driver);
-        String title = "Java (programming language)";
+        String title = "bject-oriented programming language";
 
         search.initSearchInput();
         search.typeSearchLine("Java");
         search.clickByArticleWithSubstring(title);
         article.waitForTitleElement(title);
-        String article_title = article.getArticleTitle(title);
+        String article_title = article.getArticleTitle();
 
         assertEquals(
                 "We see unexpected title",
@@ -32,12 +32,12 @@ public class ArticleTest extends CoreTestCase {
     public void testSwipeArticle() {
         SearchPageObject search = SearchPageObjectFactory.get(driver);
         ArticlePageObject article = ArticlePageObjectFactory.get(driver);
-        String title = "Object-oriented programming language";
+        String title = "bject-oriented programming language";
 
         search.initSearchInput();
         search.typeSearchLine("Java");
         search.clickByArticleWithSubstring(title);
-        article.waitForTitleElement(title);
+        article.waitForTitleElement("Java");
         article.swipeToFooter();
 
     }

@@ -1,6 +1,7 @@
 package tests;
 
 import lib.CoreTestCase;
+import lib.Platform;
 import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
 import lib.ui.factories.ArticlePageObjectFactory;
@@ -12,6 +13,9 @@ public class ChangeAppConditionTests extends CoreTestCase {
     @Test
     public void testChangeOrientation(){
 
+        if(Platform.getInstance().isMW()){
+            return;
+        }
         String searchLine = "Java";
         String search_result_locator ="//*[@resource-id=\"org.wikipedia:id/page_list_item_title\"]";
         SearchPageObject search = SearchPageObjectFactory.get(driver);
@@ -21,11 +25,11 @@ public class ChangeAppConditionTests extends CoreTestCase {
         search.typeSearchLine(searchLine);
         search.clickByArticleWithSubstring(searchLine);
 
-        String title_before_rotation = article.getArticleTitle(searchLine);
+        String title_before_rotation = article.getArticleTitle();
 
         this.rotateScreenLandscape();
 
-        String title_after_rotation = article.getArticleTitle(searchLine);
+        String title_after_rotation = article.getArticleTitle();
 
         assertEquals("Article title have been change after screen rotation",
                 title_before_rotation,
@@ -33,7 +37,7 @@ public class ChangeAppConditionTests extends CoreTestCase {
 
         this.rotateScreenPortrait();
 
-        String title_after_second_rotation = article.getArticleTitle(searchLine);
+        String title_after_second_rotation = article.getArticleTitle();
 
         assertEquals("Article title have been change after screen rotation",
                 title_after_rotation,

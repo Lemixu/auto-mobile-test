@@ -13,7 +13,7 @@ public class SearchTests extends CoreTestCase {
 
         search.initSearchInput();
         search.typeSearchLine("Java");
-        search.waitForSearchResult("Object-oriented programming language");
+        search.waitForSearchResult("bject-oriented programming language");
     }
 
     @Test
@@ -22,6 +22,7 @@ public class SearchTests extends CoreTestCase {
 
         search.initSearchInput();
         search.typeSearchLine("Java");
+        search.waitForSearchResult("bject-oriented programming language");
         search.waitForCancelButtonToAppear();
         search.clickCancelButton();
         search.waitForCancelButtonToDisappear();

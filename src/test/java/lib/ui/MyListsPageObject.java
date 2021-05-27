@@ -2,11 +2,12 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 import lib.Platform;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 
 abstract public class MyListsPageObject extends MainPageObject {
 
-    public MyListsPageObject(AppiumDriver driver) {
+    public MyListsPageObject(RemoteWebDriver driver) {
         super(driver);
     }
 
@@ -14,7 +15,8 @@ abstract public class MyListsPageObject extends MainPageObject {
             FOLDER_NAME_TPL,
             ARTICLE_IN_FOLDER_TPL,
             DOWNLOAD_LIST_ICON,
-            DELETE_BUTTON;
+            DELETE_BUTTON,
+            REMOVE_FROM_SAVED_BUTTON;
 
 
     private static String getFolderElement(String substring) {
@@ -23,6 +25,9 @@ abstract public class MyListsPageObject extends MainPageObject {
 
     private static String getSavedArticle(String substring) {
         return ARTICLE_IN_FOLDER_TPL.replace("{SUBSTRING}", substring);
+    }
+    private static String getRemoveButtonByTitle(String substring) {
+        return REMOVE_FROM_SAVED_BUTTON.replace("{SUBSTRING}", substring);
     }
 
 
@@ -34,14 +39,28 @@ abstract public class MyListsPageObject extends MainPageObject {
                 5);
     }
 
-    public void swipeArticleToDelete(String article_title) {
+    public void swipeArticleToDelete(String article_title) throws InterruptedException {
         this.waitForArticleAppearByTitle(article_title);
         String name_of_article = getSavedArticle(article_title) + "/..";
-        this.swipeElementToLeft(
-                name_of_article,
-                "Cannot swipe the article");
+
+        if((Platform.getInstance().isIOS()) || (Platform.getInstance().isAndroid())) {
+            this.swipeElementToLeft(
+                    name_of_article,
+                    "Cannot swipe the article");
+        }
+        else {
+            String remove_locator =  getRemoveButtonByTitle(article_title);
+            this.waitForElementAndClick(
+                    remove_locator,
+                    "Cannot click button to remove article",
+                    10);
+        }
         if(Platform.getInstance().isIOS()){
             clickDeleteArticleButton();
+        }
+        if(Platform.getInstance().isMW()){
+            Thread.sleep(1000);
+            driver.navigate().refresh();
         }
         this.waitForArticleToDisappearByTitle(article_title);
     }

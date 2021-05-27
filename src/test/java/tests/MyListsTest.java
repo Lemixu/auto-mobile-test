@@ -2,10 +2,7 @@ package tests;
 
 import lib.CoreTestCase;
 import lib.Platform;
-import lib.ui.ArticlePageObject;
-import lib.ui.MyListsPageObject;
-import lib.ui.NavigationUI;
-import lib.ui.SearchPageObject;
+import lib.ui.*;
 import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.MyListPageObjectFactory;
 import lib.ui.factories.NavigationUIFactory;
@@ -15,10 +12,12 @@ import org.junit.Test;
 public class MyListsTest extends CoreTestCase {
 
     private static final String name_of_folder = "Learning programming";
+    private static final String login = "Lemixu";
+    private static final String password = "anila3211";
+
 
     @Test
-    public void testSaveFirstArticle(){
-
+    public void testSaveFirstArticle() throws InterruptedException {
 
 
         SearchPageObject search = SearchPageObjectFactory.get(driver);
@@ -32,28 +31,47 @@ public class MyListsTest extends CoreTestCase {
         search.clickByArticleWithSubstring(title);
         article.waitForTitleElement(title);
 
-        if(Platform.getInstance().isAndroid()) {
-            String article_title = article.getArticleTitle(title);
+        String article_title = article.getArticleTitle();
+        if (Platform.getInstance().isAndroid()) {
+            //String article_title = article.getArticleTitle(title);
             article.addArticleToNewList(name_of_folder);
-        }
-        else{
+        } else if (Platform.getInstance().isIOS()) {
             article.addArticlesToMySaved();
             article.closeBannerAfterSaveArticle();
+        } else {
+            Thread.sleep(1000);
+            article.addArticlesToMySaved();
+            Thread.sleep(1000);
+            AuthorizationPageObject auth = new AuthorizationPageObject(driver);
+            auth.clickAuthButton();
+            auth.enterLoginData(login, password);
+            Thread.sleep(10000);
+            auth.submitForm();
+            Thread.sleep(5000);
+            article.waitForTitleElement(title);
+
+            assertEquals("We are not in the same page after login",
+                    article_title,
+                    article.getArticleTitle());
+            article.addArticlesToMySaved();
         }
 
-            article.closeArticle();
 
-        if(Platform.getInstance().isAndroid()) {
+        article.closeArticle();
+
+        if (Platform.getInstance().isAndroid()) {
             navigate.clickBackButton();
         }
-            navigate.clickMyLists();
+
+        navigate.openNavigation();
+        navigate.clickMyLists();
 
         if (Platform.getInstance().isAndroid()) {
             lists.openArticleByName(name_of_folder);
         }
-            lists.swipeArticleToDelete(title);
+        lists.swipeArticleToDelete(title);
 
+
+        }
 
     }
-
-}
