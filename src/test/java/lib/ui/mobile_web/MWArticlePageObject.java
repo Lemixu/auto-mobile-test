@@ -11,7 +11,7 @@ public class MWArticlePageObject extends ArticlePageObject {
 
     static {
         ARTICLE_TITLE = "css:#content h1";
-        FOOTER_ELEMENT = "css:footer";
+        FOOTER_ELEMENT = "xpath://ul[@id='footer-places']";
         SAVE_BUTTON = "css:#ca-watch";
 
         VIEW_LIST_BUTTON = "id:org.wikipedia:id/snackbar_action";

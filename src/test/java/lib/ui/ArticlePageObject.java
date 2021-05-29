@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -33,6 +34,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         return NAME_OF_EXIST_LIST.replace("{SUBSTRING}", substring);
     }
 
+    @Step("Waiting for title by name = {substring}")
     public WebElement waitForTitleElement(String substring) {
         String article_title = getTitleElement(substring);
         return waitForElementPresent(
@@ -52,8 +54,10 @@ abstract public class ArticlePageObject extends MainPageObject {
 //        }
 //    }
 
+    @Step("Save the article title")
     public String getArticleTitle() {
         WebElement title_element = waitForTitleElement(ARTICLE_TITLE);
+        screenshot(this.takeScreenshot("article_title"));
         if (Platform.getInstance().isAndroid()) {
             return title_element.getAttribute("content-desc");
         } else if (Platform.getInstance().isIOS()) {
@@ -63,6 +67,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         }
     }
 
+    @Step("Imitate the swipe up to footer element")
     public void swipeToFooter() {
         if (Platform.getInstance().isAndroid()) {
             this.swipeUpToFindElement(
@@ -82,6 +87,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         }
     }
 
+    @Step("Adding the article to  new List naming = {nameOfFolder}")
     public void addArticleToNewList(String nameOfFolder) {
         this.waitForElementAndClick(
                 SAVE_BUTTON,
@@ -105,6 +111,7 @@ abstract public class ArticlePageObject extends MainPageObject {
                 5);
     }
 
+    @Step("Pressing back button for returning to the search result screen")
     public void closeArticle() {
         if((Platform.getInstance().isAndroid()) || (Platform.getInstance().isIOS())) {
             this.waitForElementAndClick(
@@ -116,6 +123,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         }
     }
 
+    @Step("Adding the article to  old List naming = {nameOfFolder}")
     public void addArticleToOldListAndOpen(String nameOfFolder) {
         this.waitForElementAndClick(
                 SAVE_BUTTON,
@@ -140,6 +148,7 @@ abstract public class ArticlePageObject extends MainPageObject {
                 5);
     }
 
+    @Step("Check if article is still present on the screen")
     public void assertTitleOfArticleIsPresent(String title) {
         String title_of_article = getTitleElement(title);
         Boolean element_present = this.elementIsDisplayed(title_of_article);
@@ -150,6 +159,7 @@ abstract public class ArticlePageObject extends MainPageObject {
         }
     }
 
+    @Step("Adding article to My List (Only for MW)")
     public void addArticlesToMySaved() {
         if(Platform.getInstance().isMW()) {
             this.removeArticleFromSavedIfItAdded();
@@ -160,6 +170,7 @@ abstract public class ArticlePageObject extends MainPageObject {
                 5);
     }
 
+    @Step("Closing banner after saving the article to My List")
     public void closeBannerAfterSaveArticle() {
         this.waitForElementAndClick(
                 CLOSE_BANNER_BUTTON,
@@ -168,6 +179,7 @@ abstract public class ArticlePageObject extends MainPageObject {
 
     }
 
+    @Step("Removing the article from My List if it added already")
     public void removeArticleFromSavedIfItAdded(){
         if(this.isElementPresent(OPTIONS_REMOVE_FROM_MY_LIST_BUTTON)) {
             this.waitForElementAndClick(

@@ -1,6 +1,7 @@
 package lib.ui;
 
 
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -16,6 +17,7 @@ abstract public class NavigationUI extends MainPageObject {
             BACK_BUTTON,
             OPEN_NAVIGATION;
 
+    @Step("Click on 'My list' (only for MW)")
     public void clickMyLists() {
         if(Platform.getInstance().isMW()){
             this.tryClickElementWithFewAttempts(
@@ -31,6 +33,7 @@ abstract public class NavigationUI extends MainPageObject {
         }
     }
 
+    @Step("Click the back button for return to the previous page")
     public void clickBackButton() {
         this.waitForElementAndClick(
                 BACK_BUTTON,
@@ -38,6 +41,7 @@ abstract public class NavigationUI extends MainPageObject {
                 5);
     }
 
+    @Step("Click on the button 'Navigation' (Only for MW)")
     public void openNavigation() {
         if (Platform.getInstance().isMW()) {
             this.waitForElementAndClick(OPEN_NAVIGATION,

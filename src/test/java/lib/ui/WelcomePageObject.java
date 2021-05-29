@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -19,6 +20,7 @@ public class WelcomePageObject extends MainPageObject {
     GET_STARTED_BUTTON = "xpath://XCUIElementTypeStaticText[@name=\"Get started\"]";
 
 
+    @Step("Wait link 'Learn more about Wikipedia'")
     public void waitMoreAboutWiki() {
         this.waitForElementPresent(
                 LEARN_MORE_LINK,
@@ -27,6 +29,7 @@ public class WelcomePageObject extends MainPageObject {
     }
 
 
+    @Step("Clicking next button")
     public void clickNextButton() {
         this.waitForElementAndClick(
                 NEXT_BUTTON,
@@ -34,6 +37,7 @@ public class WelcomePageObject extends MainPageObject {
                 10);
     }
 
+    @Step("Waiting the text 'For new ways to explore'")
     public void waitForNewWaysToExploreText() {
         this.waitForElementPresent(
                 NEW_WAYS_TO_EXPLORE,
@@ -41,6 +45,8 @@ public class WelcomePageObject extends MainPageObject {
                 10);
     }
 
+
+    @Step("Waiting the link 'Add preferred languages'")
     public void waitAddLanguages() {
         this.waitForElementPresent(
                 ADD_PREFERRED_LANGUAGES,
@@ -49,6 +55,7 @@ public class WelcomePageObject extends MainPageObject {
     }
 
 
+    @Step("Waiting link 'Learn more about data collected'")
     public void waitLearnMore() {
         this.waitForElementPresent(
                 LEARN_MORE_ABOUT_DATA,
@@ -57,6 +64,7 @@ public class WelcomePageObject extends MainPageObject {
     }
 
 
+    @Step("Clicking the button 'Get started'")
     public void clickGetStartedButton() {
         this.waitForElementAndClick(
                 GET_STARTED_BUTTON,

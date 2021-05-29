@@ -11,7 +11,12 @@ import tests.*;
 //        ChangeAppConditionTests.class,
 //        GetStartedTest.class,
 //        MyListsTest.class,
-        SearchTests.class
+        SearchTests.class,
+        ArticleTest.class,
+        MyListsTest.class,
+        Ex9.class,
+        Ex6.class,
+        Ex5.class
 })
 
 public class TestSuite { }

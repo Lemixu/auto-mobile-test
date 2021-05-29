@@ -11,8 +11,8 @@ import java.util.Locale;
 public class Ex4 extends CoreTestCase {
     private lib.ui.MainPageObject MainPageObject;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    public void setUp() {
+
         MainPageObject = new MainPageObject(driver);
     }
     String inputText = "JAVA";

@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -31,6 +32,7 @@ abstract public class MyListsPageObject extends MainPageObject {
     }
 
 
+    @Step("Opening the article by name= {name_of_folder}")
     public void openArticleByName(String name_of_folder) {
         String nameFolder = getSavedArticle(name_of_folder);
         this.waitForElementAndClick(
@@ -39,6 +41,7 @@ abstract public class MyListsPageObject extends MainPageObject {
                 5);
     }
 
+    @Step("Imitating the swipe for delete the article my name = {article_title}")
     public void swipeArticleToDelete(String article_title) throws InterruptedException {
         this.waitForArticleAppearByTitle(article_title);
         String name_of_article = getSavedArticle(article_title) + "/..";
@@ -65,6 +68,7 @@ abstract public class MyListsPageObject extends MainPageObject {
         this.waitForArticleToDisappearByTitle(article_title);
     }
 
+    @Step("Waiting the article to disappear from 'My list' by name = {article_title}")
     public void waitForArticleToDisappearByTitle(String article_title) {
         String article_xpath = getSavedArticle(article_title);
         this.waitForElementNotPresent(
@@ -73,6 +77,7 @@ abstract public class MyListsPageObject extends MainPageObject {
                 15);
     }
 
+    @Step("Waiting the article to appear in 'My List' by name = {article_title}")
     public void waitForArticleAppearByTitle(String article_title) {
         String article_xpath = getSavedArticle(article_title);
         this.waitForElementPresent(
@@ -81,6 +86,7 @@ abstract public class MyListsPageObject extends MainPageObject {
                 15);
     }
 
+    @Step("Waiting the download icon to Disappear")
     public void waitDownloadListIconDisappear() {
         this.waitForElementNotPresent(
                 DOWNLOAD_LIST_ICON,
@@ -88,6 +94,7 @@ abstract public class MyListsPageObject extends MainPageObject {
                 15);
     }
 
+    @Step("Clicking the delete button")
     public void clickDeleteArticleButton() {
         this.waitForElementAndClick(
                 DELETE_BUTTON,
